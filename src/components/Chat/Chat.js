@@ -8,7 +8,7 @@ import { syncMessage } from '../../redux/actions/Messages'
 import { SET_CURRENT_CHAT } from '../../redux/constants/actionType'
 import MenuIcon from './menu'
 
-function Chat() {
+function Chat({friendVideo,myVideo}) {
 
   const [input, setInput] = useState('')
   const { RoomReducer, AuthReducer } = useSelector((state) => state)
@@ -16,7 +16,6 @@ function Chat() {
   
   const { currentRoom,currentChat } = RoomReducer
   const { socket, user } = AuthReducer
-
   const dispatch=useDispatch()
   const ref = useRef()
 
@@ -35,7 +34,7 @@ function Chat() {
   const sendMessage = async (e) => {
     e.preventDefault()
     console.log('input', input);
-    socket.emit('send', { data: {message:input,author:user._id,to:currentRoom._id}, receiverId: currentRoom._id })
+    socket.emit('sendMessage', { data: {message:input,author:user._id,to:currentRoom._id}, receiverId: currentRoom._id })
 
     var timeStamp=new Date().toISOString()
     dispatch({type:SET_CURRENT_CHAT,payload:{message:input,author:user._id,timeStamp}})
@@ -45,15 +44,19 @@ function Chat() {
   }
   useEffect(()=>{
 
-    socket.on('new_sms', ({message,author}) => {
+    socket.on('newMessage', ({message,author}) => {
       console.log(message);
+console.log("roomReducer : ",RoomReducer.currentRoom._id);
       var timeStamp=new Date().toISOString()
-      dispatch({type:SET_CURRENT_CHAT,payload:{message,author,timeStamp}})
+      console.log('author',author,"  RommRed",RoomReducer.currentRoom._id );
+      if(author===RoomReducer.currentRoom._id){
+        dispatch({type:SET_CURRENT_CHAT,payload:{message,author,timeStamp}})
+      }
     })
     return()=>{
-      socket.off('new_sms')
+      socket.off('newMessage')
     }
-  },[])
+  },[RoomReducer])
 
   useEffect(srcollToBottom, [currentChat])
   return (
@@ -73,7 +76,7 @@ function Chat() {
             <AttachFile />
           </IconButton>
           <IconButton>
-            <MenuIcon/>
+            <MenuIcon userId={user._id} friendId={currentRoom?._id} friendVideo={friendVideo} myVideo={myVideo}/>
           </IconButton>
         </div>
       </div>

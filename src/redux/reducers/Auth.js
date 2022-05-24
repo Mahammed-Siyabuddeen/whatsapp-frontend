@@ -1,10 +1,11 @@
-import { AUTH, FETCH_ROOM, SOCKET_IO_CONNECTION } from "../constants/actionType";
+import { AUTH, CALLING_USER, FETCH_ROOM, INCOMMING_CALL, SOCKET_IO_CONNECTION } from "../constants/actionType";
 import io from 'socket.io-client'
-const user=JSON.parse(localStorage.getItem('chatProfile'))
-const phoneNumber=user?.phoneNumber
 const initialState={
     user:JSON.parse(localStorage.getItem('chatProfile')),
-    socket:io('http://localhost:9000',)
+    socket:io('http://localhost:9000',),
+    callingUser:false,
+    incomming_call:false
+    
 }
 
 export const AuthReducer=(state=initialState,action)=>{
@@ -19,7 +20,13 @@ export const AuthReducer=(state=initialState,action)=>{
         case SOCKET_IO_CONNECTION:{
             return {...state,socket:action.payload}
         }
-
+        case CALLING_USER:{
+            console.log(state.callingUser);
+            return{...state,callingUser:!state.callingUser}
+        }
+        case INCOMMING_CALL:{
+            return{...state,incomming_call:!state.incomming_call,call:action.payload}
+        }
         default :return state
     }
 }

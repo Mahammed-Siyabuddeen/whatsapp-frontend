@@ -2,7 +2,8 @@ import { CURRENT_CHAT, CURRENT_CHAT_ROOM, FETCH_ROOM, SET_CURRENT_CHAT } from ".
 
 const initialState={
     rooms:[],
-    currentChat:[]
+    currentChat:[],
+    
 }
 
 export const RoomReducer=(state=initialState,action)=>{

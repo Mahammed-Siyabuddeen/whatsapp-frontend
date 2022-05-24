@@ -3,7 +3,7 @@ import { Alert } from '@mui/material'
 import React, { useState } from 'react'
 import Input from './Input'
 import useStyles from './styles'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { LoginUser, signUpUser } from '../../redux/actions/Auth'
 import { useNavigate } from 'react-router-dom'
 const initialState = {
@@ -19,9 +19,11 @@ function Auth() {
   const [form, setForm] = useState(initialState);
   const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState(null)
+
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const classes = useStyles()
+  const {socket}=useSelector((state)=>state.AuthReducer)
   const switchMode = () => {
     setForm(initialState)
     setIsSignUp((prevState) => !prevState)
@@ -29,10 +31,10 @@ function Auth() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     if (isSignUp) {
-      const err = await dispatch(signUpUser(form, navigate))
+      const err = await dispatch(signUpUser(form, navigate,socket))
       setError(err)
     } else {
-      const err = await dispatch(LoginUser(form, navigate))
+      const err = await dispatch(LoginUser(form, navigate,socket))
       setError(err)
     }
   }
