@@ -49,7 +49,7 @@ function VideoStream() {
 
         peer.on('signal', (data) => {
             console.log("if signal:", data);
-            socket.emit('callUser', { userId: user._id, friendId: currentRoom._id, signalData: data })
+            socket.emit('callUser', { userId: user._id, userName:user?.name,friendId: currentRoom._id, signalData: data })
         })
         peer.on('stream', (currentStream) => {
             console.log("if-stream :", currentStream);
