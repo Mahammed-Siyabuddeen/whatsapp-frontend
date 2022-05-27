@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import './SideBar.css'
 import Avatar from '@material-ui/core/Avatar'
 import DonutLargeIcon from '@material-ui/icons/DonutLarge'
@@ -10,17 +10,33 @@ import SidebarChat from '../SidebarChat/SidebarChat'
 import {useNavigate} from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { fectRooms } from '../../redux/actions/Rooms'
+import { FETCH_ROOM } from '../../redux/constants/actionType'
 function SideBar() {
   const navigate=useNavigate()
   const dispatch=useDispatch()
   const {AuthReducer,RoomReducer}=useSelector((state)=>state)
+  const[search,setSearch]=useState('')
+
   const{user}=AuthReducer
-  const{rooms}=RoomReducer
+  var{rooms}=RoomReducer
   useEffect(()=>{
     console.log(user);
-    if(user)
+    if(user && !search  )
     dispatch(fectRooms(user._id))
-  },[])
+  },[search])
+
+  const handleSearch=(e)=>{
+    e.preventDefault()
+    console.log(e.target.value);
+    setSearch(e.target.value)
+    var ans=rooms.filter((data)=>{ data={name:data.name,phoneNumber:data.phoneNumber}; console.log(data);     return Object.values(data).some((values)=>{  return values.includes(e.target.value)})})
+    console.log('ans :',ans);
+    // rooms=ans
+    dispatch({type:FETCH_ROOM,payload:ans})
+    console.log('rooms',rooms);
+
+  }
+  
   return (
     <div className='SideBar'>
         <div className='sidebar_header'>
@@ -41,7 +57,7 @@ function SideBar() {
         <div className='sidebar_search'>
           <div className='sidebar_searchContainer'>
             <SearchOutlined/>
-            <input placeholder='start new chat' type='text'/>
+            <input placeholder='start new chat' value={search} onChange={handleSearch}  type='text'/>
           </div>
         </div>
          
