@@ -31,6 +31,15 @@
     background-color: #ffffff;
     margin-bottom: 30px;
 }
+.chat_message_emoji_and_voice{
+    position: relative;
+    font-size: 25px;
+    padding: 10px;
+    width: 180px;
+    border-radius: 10px;
+    background-color: #ffffff;
+    margin-bottom: 30px;
+}
 .chat_reciever{
     margin-left: auto;
     background-color: #dcf8c6;
