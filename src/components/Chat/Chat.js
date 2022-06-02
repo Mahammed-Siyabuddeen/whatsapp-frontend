@@ -1,19 +1,23 @@
 import React, { useEffect, useRef, useState } from 'react'
 import './Chat.css'
 import Avatar from '@material-ui/core/Avatar'
-import { IconButton, createTheme,ThemeProvider, makeStyles } from '@material-ui/core'
+import { IconButton, createTheme,ThemeProvider, makeStyles, Button, Dialog } from '@material-ui/core'
 import { SearchOutlined, AttachFile, InsertEmoticon, Mic } from '@material-ui/icons'
 import { useDispatch, useSelector } from 'react-redux'
 import { syncMessage } from '../../redux/actions/Messages'
-import { SET_CURRENT_CHAT } from '../../redux/constants/actionType'
+import { REMOVE_CURRENT_CHAT, SET_CURRENT_CHAT } from '../../redux/constants/actionType'
 import AudioReactRecorder, { RecordState } from 'audio-react-recorder'
 import AudioPlayer from 'material-ui-audio-player'
 import MenuIcon from './menu'
 import { useStyle } from './styles'
+import ImageView from '../ImageView/ImageView'
 
 function Chat({ friendVideo, myVideo }) {
 
   const [input, setInput] = useState('')
+  const[file,setFile]=useState('')
+  const[currentImage,setCurrentImage]=useState('')
+  const[popup,setPopup]=useState(false)
   const [recordState, setRecordState] = useState(null)
   const { RoomReducer, AuthReducer } = useSelector((state) => state)
   const [play, setPlay] = useState(false)
@@ -23,7 +27,6 @@ function Chat({ friendVideo, myVideo }) {
   const { socket, user } = AuthReducer
   const dispatch = useDispatch()
   const ref = useRef()
-  const muiTheme=createTheme({})
   const srcollToBottom = () => {ref.current.scrollIntoView() }
 
   const uset= makeStyles((theme)=>({
@@ -40,24 +43,42 @@ function Chat({ friendVideo, myVideo }) {
       dispatch(syncMessage({ userId: user._id, friendId: currentRoom?._id }))
     }
 
+    return()=>{
+      dispatch({type:REMOVE_CURRENT_CHAT})
+    }
+
   }, [currentRoom])
 
 
   useEffect(() => {
 
-    socket.on('newMessage', ({ message, audioFile, author }) => {
-      console.log("audifile : ", audioFile);
+    socket.on('newMessage', ({ message, audioFile,imageFile ,author }) => {
+      console.log("imagefile : ", imageFile);
       console.log("roomReducer : ", RoomReducer.currentRoom._id);
       var timeStamp = new Date().toISOString()
       console.log('author', author, "  RommRed", RoomReducer.currentRoom._id);
       if (author === RoomReducer.currentRoom._id) {
-        dispatch({ type: SET_CURRENT_CHAT, payload: { message, audioFile, author, timeStamp } })
+        dispatch({ type: SET_CURRENT_CHAT, payload: { message,imageFile, audioFile, author, timeStamp } })
       }
     })
     return () => {
       socket.off('newMessage')
     }
   }, [RoomReducer])
+
+
+  useEffect(()=>{
+    if(file ){
+       const reader=new FileReader()
+       reader.readAsDataURL(file)
+       reader.onloadend=()=>{
+         console.log(reader.result);
+         sendFile(reader.result)
+       }
+       setFile('')
+       // socket.emit('sendMessage')
+     }
+   },[file])
 
   useEffect(srcollToBottom, [currentChat])
 
@@ -88,6 +109,15 @@ function Chat({ friendVideo, myVideo }) {
     dispatch({ type: SET_CURRENT_CHAT, payload: { message: '😊', author: user._id, timeStamp } })
   }
 
+  const sendFile=(file)=>{
+    socket.emit('sendMessage', { data: { imageFile:file, author: user._id, to: currentRoom._id }, receiverId: currentRoom._id })
+    var timeStamp = new Date().toISOString()
+    dispatch({ type: SET_CURRENT_CHAT, payload: { imageFile:file, author: user._id, timeStamp } })  
+  }
+  
+
+  console.log(file);
+
   const handleStart = (e) => {
     e.preventDefault()
     console.log('handlestart');
@@ -114,6 +144,10 @@ function Chat({ friendVideo, myVideo }) {
       console.log(base64data)
     }
   }
+  const handleViewImage=(imageFile)=>{
+      setPopup(true)
+      setCurrentImage(imageFile)
+  }
 
   return (
     <div className='Chat'>
@@ -131,7 +165,10 @@ function Chat({ friendVideo, myVideo }) {
                 <SearchOutlined />
               </IconButton>
               <IconButton>
-                <AttachFile />
+                <Button  component='label'  >
+                  <AttachFile/>
+                  <input type='file' hidden  onChange={e=>setFile(e.target.files[0])}/>
+                </Button>
               </IconButton>
               <IconButton>
                 <MenuIcon userId={user._id} friendId={currentRoom?._id} friendVideo={friendVideo} myVideo={myVideo} />
@@ -144,7 +181,7 @@ function Chat({ friendVideo, myVideo }) {
 
 
       <div className="chat_body">
-        {currentChat.map(({ name, message, timeStamp, audioFile, author }, i) =>
+        {currentChat.map(({ name, message, timeStamp, audioFile,imageFile, author }, i) =>
           message ? (
             <p key={i} className={`${message=='😊'?'chat_message_emoji_and_voice ':'chat_message'}
                 ${author === user._id && `chat_reciever`}`} >
@@ -155,7 +192,7 @@ function Chat({ friendVideo, myVideo }) {
           ) :
           audioFile ?(
             <div key={i} className={`chat_message_emoji_and_voice ${author === user._id && `chat_reciever`}`}>
-              <ThemeProvider theme={muiTheme} >
+              <ThemeProvider  >
                 <AudioPlayer src={audioFile}
                   spacing={3}
                   useStyles={author===user._id? useStyle:uset}
@@ -163,6 +200,10 @@ function Chat({ friendVideo, myVideo }) {
                   time={'single'}
                 />
               </ThemeProvider>
+            </div>
+          ):imageFile?(
+            <div key={i} className={`chat_message ${author===user._id && 'chat_reciever'}`}>
+              <img  width={'200px'} src={imageFile}  onClick={()=>handleViewImage(imageFile)}/>
             </div>
           ):null
         )}
@@ -195,9 +236,8 @@ function Chat({ friendVideo, myVideo }) {
       
       <Mic disabled={!currentRoom} onClick={handleStart} />
 
-
+         <ImageView popup={popup} setPopup={setPopup} currentImage={currentImage}/>
       </div>
-
     </div >
   )
 }
