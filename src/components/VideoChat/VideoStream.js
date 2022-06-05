@@ -27,7 +27,6 @@ function VideoStream() {
             console.log('time');
             navigator.mediaDevices.getUserMedia(({ video: true, audio: true })).then((myStream) => {
                 setStream(myStream)
-
                 myVideo.current.srcObject = myStream
                 if (callingUser) {
                     callUser(myStream)
@@ -114,7 +113,7 @@ function VideoStream() {
                 myVideo.current = null
                 friendVideo.current = null
                 navigator.mediaDevices.getUserMedia({ video: false, audio: false })
-                navigate('/')
+                window.location.href='/'
             }
         })
 

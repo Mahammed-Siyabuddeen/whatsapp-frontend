@@ -23,7 +23,11 @@ function MenuIcon() {
     navigate('/videochat')
   }
 
-
+  const handleAudioCall=(e)=>{
+    e.preventDefault()
+    dispatch({type:CALLING_USER})
+    navigate('/audiochat')
+  }
   return (
     <div>
 
@@ -47,7 +51,7 @@ function MenuIcon() {
 
         <MenuItem onClick={handleClose}><Close /></MenuItem>
         <MenuItem onClick={handleVideoCall}><Videocam /></MenuItem>
-        <MenuItem onClick={null}><Call /></MenuItem>
+        <MenuItem onClick={handleAudioCall}><Call /></MenuItem>
       </Menu>
     </div>
   )

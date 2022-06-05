@@ -12,22 +12,28 @@ function Home({ user, friendVideo, myVideo }) {
   const[from,setFrom]=useState(null)
   const[signal,setSignal]=useState(null)
   const[userName,setUserName]=useState(null)
+  const[videoDialog,setVideoDialog]=useState(false)
+
   
   const classes=useStyles()
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
 
-  const handleClickToOpen=()=>{
-        setOpen(true)
-  }
+ 
   
-  const handleAnswer=(e)=>{
+  const handleVideoAnswer=(e)=>{
     e.preventDefault()
       dispatch({ type: INCOMMING_CALL, payload: { from, signal } })
       setOpen(false)
       navigate('/videochat')
     
+  }
+  const handleAudioAnswer=(e)=>{
+    e.preventDefault()
+    dispatch({type: INCOMMING_CALL, payload: { from, signal } })
+    setOpen(false)
+    navigate('/audiochat')
   }
 
   const handleDecline=()=>{
@@ -40,7 +46,8 @@ function Home({ user, friendVideo, myVideo }) {
     socket.on('callUser', async ({ from,userName, signal }) => {
       console.log('from:', signal);
       setFrom(from);setSignal(signal);setUserName(userName)
-      handleClickToOpen()
+      setVideoDialog(true)
+      setOpen(true)
     })
 
     return () => {
@@ -49,6 +56,27 @@ function Home({ user, friendVideo, myVideo }) {
   }, [])
 
 
+  useEffect(()=>{
+    socket.on('audioCall',({from,userName,signal})=>{
+    console.log('from : ',signal);
+    setFrom(from);setSignal(signal);setUserName(userName)
+    setOpen(true)
+    })
+
+    return()=>{
+      socket.off('audioCall')
+    }
+  },[])
+
+   useEffect(()=>{
+
+    socket.on('hangUp',()=>{
+      setOpen(false)
+    })
+    return()=>{
+      socket.off('hangUp')
+    }
+   },[])
 
   return (
     <div className="App">
@@ -56,15 +84,30 @@ function Home({ user, friendVideo, myVideo }) {
         <>
           <SideBar user={user} />
           <Chat friendVideo={friendVideo} myVideo={myVideo} />
-          <Dialog open={open} onClose={handleDecline} >
-              <DialogTitle>calling...</DialogTitle>  
-              <DialogContent>
-                    <DialogContentText>{userName}</DialogContentText>
-              </DialogContent>       <DialogActions>
-                    <Button variant='contained' className={classes.ButtonDecline} onClick={handleDecline}  >dicline</Button>
-                    <Button variant='contained' color='primary' onClick={handleAnswer}>Answer</Button>
-              </DialogActions>
-          </Dialog>
+          {videoDialog?(
+              <Dialog open={open} onClose={handleDecline} >
+                  <DialogTitle>Video calling...</DialogTitle>  
+                  <DialogContent>
+                        <DialogContentText>{userName}</DialogContentText>
+                  </DialogContent>       <DialogActions>
+                        <Button variant='contained' className={classes.ButtonDecline} onClick={handleDecline}  >dicline</Button>
+                        <Button variant='contained' color='primary' onClick={handleVideoAnswer}>Answer</Button>
+                  </DialogActions>
+              </Dialog>
+          ):(
+                <Dialog open={open} onClose={handleDecline} >
+                    <DialogTitle>Audio-calling...</DialogTitle>  
+                    <DialogContent>
+                          <DialogContentText>{userName}</DialogContentText>
+                    </DialogContent>       <DialogActions>
+                          <Button variant='contained' className={classes.ButtonDecline} onClick={handleDecline}  >dicline</Button>
+                          <Button variant='contained' color='primary' onClick={handleAudioAnswer}>Answer</Button>
+                    </DialogActions>
+                </Dialog>
+
+          )
+          }
+
         </>
       </div>
     </div>

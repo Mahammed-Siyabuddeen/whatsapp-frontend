@@ -7,6 +7,7 @@ import Contacts from './components/contacts/contacts';
 import {useSelector } from 'react-redux';
 import VideoStreamSelf from './components/VideoChat/VideoStream';
 import {ConfirmProvider} from 'material-ui-confirm'
+import AudioChat from './components/AudioChat/AudioChat';
 function App() {
   const { user, socket } = useSelector((state) => state.AuthReducer)
 
@@ -25,6 +26,7 @@ function App() {
         <Route path='/auth' element={<Auth />} />
         <Route path='/users' element={<Contacts />} />
         <Route path='/videochat' element={!user ? <Auth/>:<VideoStreamSelf />}/>
+        <Route path='/audiochat' element={!user?<Auth/>:<AudioChat/>}  />
       </Routes>
     </BrowserRouter>
   );
