@@ -4,6 +4,7 @@ import './sidebarChat.css'
 import { useDispatch } from 'react-redux'
 import { CURRENT_CHAT_ROOM } from '../../redux/constants/actionType'
 function SidebarChat({ data }) {
+  
   const dispatch = useDispatch()
   
   const handleClick = (e) => {
@@ -12,7 +13,7 @@ function SidebarChat({ data }) {
   }
   return (
     <div className='sidebarChat' onClick={handleClick}>
-      <Avatar />
+      <Avatar src={data.avatar||''} />
       <div className="sidebarChat_info">
         <h2>{data?.name}</h2>
         <p>this is last message</p>

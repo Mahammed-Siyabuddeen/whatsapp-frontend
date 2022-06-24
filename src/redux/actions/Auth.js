@@ -1,5 +1,5 @@
 import * as api from "../../api/index"
-import { AUTH } from "../constants/actionType";
+import { ADD_TO_CONTACTS, ALL_USERS, AUTH, UPDATE_PROFILE } from "../constants/actionType";
 
 export const LoginUser=(formData,router,socket)=>async(dispatch)=>{
      const{password,phoneNumber}=formData
@@ -19,7 +19,6 @@ export const LoginUser=(formData,router,socket)=>async(dispatch)=>{
 
 export const signUpUser=(formData,router,socket)=>async(dispatch)=>{
             try {
-                
                 const {data}=await api.signUp(formData);
                 dispatch({type:AUTH,payload:data})
                  socket.emit('join',{userId:data.user._id})
@@ -28,5 +27,35 @@ export const signUpUser=(formData,router,socket)=>async(dispatch)=>{
                 console.log(error);
                 return error.message
             }
+
+}
+
+export const fecthAllUsers=(_id)=>async(dispatch)=>{
+      const {data}=await api.allUsers(_id);
+      dispatch({type:ALL_USERS,payload:data})
+}
+
+export const addToContacts=({name,phoneNumber,_id,userId})=>async(dispatch)=>{
+    dispatch({type:ADD_TO_CONTACTS,payload:{name,phoneNumber,_id}})
+    await api.addTocontacts({_id,userId});
+
+}
+export const updateProfile=({type,data,_id})=>async(dispatch)=>{
+      try {
+          if(type=='avatar'){
+              const reader=new FileReader()
+             reader.readAsDataURL(data)
+             reader.onloadend=()=>{
+                 dispatch({type:UPDATE_PROFILE,payload:{type,data:reader.result}})
+                 api.updateProfile({type,data:reader.result,_id})
+            }
+          }else{
+                await api.updateProfile({type,data,_id})
+                 dispatch({type:UPDATE_PROFILE,payload:{type,data}})
+          }
+      } catch (error) {
+          alert(error?.response?.data?.message)
+      }
+     
 
 }

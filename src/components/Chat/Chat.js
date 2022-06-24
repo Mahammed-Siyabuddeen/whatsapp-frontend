@@ -11,6 +11,7 @@ import AudioPlayer from 'material-ui-audio-player'
 import MenuIcon from './menu'
 import { useStyle } from './styles'
 import ImageView from '../ImageView/ImageView'
+import { useNavigate } from 'react-router-dom'
 
 function Chat({ friendVideo, myVideo }) {
 
@@ -26,6 +27,7 @@ function Chat({ friendVideo, myVideo }) {
   const { currentRoom, currentChat } = RoomReducer
   const { socket, user } = AuthReducer
   const dispatch = useDispatch()
+  const navigate=useNavigate()
   const ref = useRef()
   const srcollToBottom = () => {ref.current.scrollIntoView() }
 
@@ -154,8 +156,8 @@ function Chat({ friendVideo, myVideo }) {
       {
         currentRoom && (
           <div className="chat_header">
-            <Avatar />
-            <div className="chat_headerInfo">
+            <Avatar src={currentRoom?.avatar} onClick={()=>navigate('/contactInfo')} />
+            <div onClick={()=>navigate('/contactInfo')}  className="chat_headerInfo">
               <h3>{currentRoom?.name}</h3>
               <p>last seen at...</p>
             </div>
@@ -164,11 +166,9 @@ function Chat({ friendVideo, myVideo }) {
               <IconButton>
                 <SearchOutlined />
               </IconButton>
-              <IconButton>
-                <Button  component='label'  >
+              <IconButton component='label'>
                   <AttachFile/>
-                  <input type='file' hidden  onChange={e=>setFile(e.target.files[0])}/>
-                </Button>
+                  <input type='file'  hidden  onChange={e=>setFile(e.target.files[0])}/>
               </IconButton>
               <IconButton>
                 <MenuIcon userId={user._id} friendId={currentRoom?._id} friendVideo={friendVideo} myVideo={myVideo} />

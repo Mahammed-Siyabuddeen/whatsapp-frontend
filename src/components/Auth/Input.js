@@ -15,7 +15,7 @@ function Input({name,placeholder,handleChange,autoFocus,type,label}) {
             autoFocus={autoFocus}
             type={type}
             onChange={handleChange}
-            
+            inputProps={{accept:'image/*'}}
             />
       </Grid>
   )

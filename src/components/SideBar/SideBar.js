@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import './SideBar.css'
 import Avatar from '@material-ui/core/Avatar'
 import DonutLargeIcon from '@material-ui/icons/DonutLarge'
-import { IconButton,} from '@material-ui/core'
+import { Button, IconButton,} from '@material-ui/core'
 import ChatIcon from '@material-ui/icons/Chat'
 import MoreViewIcon from '@material-ui/icons/MoreVert'
 import SearchOutlined from '@material-ui/icons/SearchOutlined'
@@ -31,7 +31,6 @@ function SideBar() {
     setSearch(e.target.value)
     var ans=rooms.filter((data)=>{ data={name:data.name,phoneNumber:data.phoneNumber}; console.log(data);     return Object.values(data).some((values)=>{  return values.includes(e.target.value)})})
     console.log('ans :',ans);
-    // rooms=ans
     dispatch({type:FETCH_ROOM,payload:ans})
     console.log('rooms',rooms);
 
@@ -40,16 +39,15 @@ function SideBar() {
   return (
     <div className='SideBar'>
         <div className='sidebar_header'>
-        <Avatar   src="https://media-exp1.licdn.com/dms/image/C5603AQGtoenXjHWZ7w/profile-displayphoto-shrink_200_200/0/1652077013142?e=1657756800&v=beta&t=lvfoy9mg2J4NSoBfUsTX0EIDnevAnAkTKcPGdhdzfSA"/>
+          <Button onClick={()=>navigate('/profile')} >
+            <Avatar src={user.avatar ||''} />
+          </Button>
            <div className='sidebar_headerRight'>
               <IconButton>
                  <DonutLargeIcon/>
               </IconButton>
               <IconButton onClick={()=>navigate('/users')}>
                  <ChatIcon/>
-              </IconButton>
-              <IconButton>
-                 <MoreViewIcon/>
               </IconButton>
            </div>
         </div>

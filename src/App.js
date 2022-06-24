@@ -8,8 +8,12 @@ import {useSelector } from 'react-redux';
 import VideoStreamSelf from './components/VideoChat/VideoStream';
 import {ConfirmProvider} from 'material-ui-confirm'
 import AudioChat from './components/AudioChat/AudioChat';
+import Profile from './components/Profile/Profile';
+import ContactInfo from './components/ContactInfo/ContactInfo';
 function App() {
-  const { user, socket } = useSelector((state) => state.AuthReducer)
+  const { AuthReducer,RoomReducer} = useSelector((state) => state);
+  const{user, socket }=AuthReducer
+  const{currentRoom}=RoomReducer
 
   useEffect(() => {
     console.log(socket);
@@ -27,6 +31,8 @@ function App() {
         <Route path='/users' element={<Contacts />} />
         <Route path='/videochat' element={!user ? <Auth/>:<VideoStreamSelf />}/>
         <Route path='/audiochat' element={!user?<Auth/>:<AudioChat/>}  />
+        <Route path='/profile' element={!user ? <Auth/>:<Profile/>} />
+        <Route path='/contactInfo' element={!user?<Auth/>:!currentRoom?<Home/>:<ContactInfo/>} />
       </Routes>
     </BrowserRouter>
   );

@@ -78,6 +78,8 @@ function Home({ user, friendVideo, myVideo }) {
     }
    },[])
 
+
+   
   return (
     <div className="App">
       <div className="App_body">
@@ -99,7 +101,8 @@ function Home({ user, friendVideo, myVideo }) {
                     <DialogTitle>Audio-calling...</DialogTitle>  
                     <DialogContent>
                           <DialogContentText>{userName}</DialogContentText>
-                    </DialogContent>       <DialogActions>
+                    </DialogContent>    
+                     <DialogActions>
                           <Button variant='contained' className={classes.ButtonDecline} onClick={handleDecline}  >dicline</Button>
                           <Button variant='contained' color='primary' onClick={handleAudioAnswer}>Answer</Button>
                     </DialogActions>

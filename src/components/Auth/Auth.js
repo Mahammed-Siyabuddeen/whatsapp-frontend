@@ -11,14 +11,15 @@ const initialState = {
   phoneNumber: '',
   email: '',
   password: '',
-  confimPassword: '',
+  confirmPassword: '',
+  avatar:''
 
 }
 function Auth() {
   const [isSignUp, setIsSignUp] = useState(false)
   const [form, setForm] = useState(initialState);
   const [showPassword, setShowPassword] = useState(false)
-  const [error, setError] = useState(null)
+  const [error, setError] = useState('')
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -31,16 +32,36 @@ function Auth() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     if (isSignUp) {
-      const err = await dispatch(signUpUser(form, navigate,socket))
-      setError(err)
+      (form.phoneNumber.length!=10)?
+      setError('only indian phonenumber allowed'):
+      form.password.length<6?
+      setError('password should be minmum 6 character')
+       :form.password!==form.confirmPassword?
+       setError('password not match')
+       :signUpNewOne();
     } else {
-      const err = await dispatch(LoginUser(form, navigate,socket))
+      const err =await  dispatch(LoginUser(form, navigate,socket))
       setError(err)
     }
   }
+
+ async function signUpNewOne(){
+     const err=await dispatch(signUpUser(form,navigate,socket))
+     setError(err)
+  }
+
   const handleChange = (e) => {
-    console.log(e.target.name);
-    setForm({ ...form, [e.target.name]: e.target.value })
+    setError('')
+    if(e.target.type==='file'){
+      const reader=new FileReader()
+      reader.readAsDataURL(e.target.files[0])
+      reader.onloadend=()=>{
+
+        setForm({ ...form, [e.target.name]: reader.result})
+      }
+    }
+    else
+      setForm({ ...form, [e.target.name]: e.target.value })
   }
   const handleShowPassword = {}
   return (
@@ -65,6 +86,12 @@ function Auth() {
             {isSignUp && (
               <Input name="confirmPassword" label="Repeat Password" handleChange={handleChange} type="password"
               />
+            )}
+            {isSignUp &&(
+              <Input name='avatar'  handleChange={handleChange} accept='image/*'  type='file' />
+            )}
+            {form.avatar &&(
+              <img src={form.avatar} width='90px' style={{padding:'10px'}}/>
             )}
           </Grid>
 

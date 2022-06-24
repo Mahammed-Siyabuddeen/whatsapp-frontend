@@ -1,22 +1,46 @@
-import { Grid } from '@material-ui/core'
-import React from 'react'
+import { Avatar, Grid ,Button} from '@material-ui/core'
+import React, { useEffect } from 'react'
 import { styles } from './styles'
+import {useDispatch, useSelector} from 'react-redux'
+import { addToContacts, fecthAllUsers } from '../../redux/actions/Auth'
 function Contacts() {
     const classes = styles()
+    const dispatch=useDispatch()
+    const {allUsers,user}=useSelector(state=>state.AuthReducer)
+    useEffect(()=>{
+        dispatch(fecthAllUsers(user._id))
+    },[])
+
+    const handleClick=({phoneNumber,_id,name})=>{
+        dispatch(addToContacts({phoneNumber,name,_id,userId:user._id}))
+
+        
+    }
     
     return (
         <div className={classes.users_container}>
             <div className={classes.users_body}>
-                userList
-                <Grid container spacing={2}>
-                    <Grid item xs={12}>
-                       <div className={classes.users_chat}>
-                           
-                       </div>
-                    </Grid>
-                    
-                </Grid>
-            </div>
+                {
+                    allUsers?.map(({name,phoneNumber,_id,avatar})=>(
+                        <div key={_id} className={classes.user} >
+                                <Avatar src={avatar} />
+                                <p className={classes.user_details}>{name}</p>
+                                <p className={classes.user_details}>{phoneNumber}</p>
+                                <Button variant='contained' color='primary' className={classes.user_details} style={{marginLeft:'auto'}} onClick={()=>handleClick({name,phoneNumber,_id})}>Add-Chat</Button>
+                        </div>
+                        
+                    ))
+                }
+                {
+                    !allUsers?.length &&(
+                        <div className={classes.empty_user_body}>
+                            <h1 className={classes.empty_user_message}>user is empty</h1>
+                        </div>
+                    )
+                }
+               
+                   
+                </div>
         </div>
     )
 }
