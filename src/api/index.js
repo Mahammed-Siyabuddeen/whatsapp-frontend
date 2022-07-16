@@ -3,6 +3,17 @@ import axios from 'axios'
 const API=axios.create({
     baseURL:'http://localhost:9000'
 })
+API.interceptors.request.use((req)=>{
+    if(localStorage.getItem('chatProfile')){
+        try {
+            req.headers.Authorization=`Bearer ${JSON.parse(localStorage.getItem('chatProfile')).token}`
+        } catch (error) {
+            console.log(error)
+            alert(error.message)
+        }
+    }
+    return req;
+})
 
 
 export const signIn=(formData)=>API.post('/auth/login',formData)
@@ -13,3 +24,5 @@ export const syncMessage=({userId,friendId})=>API.post('/messages/sync',{userId,
 export const allUsers=(_id)=>API.post('/allusers',{_id})
 export const addTocontacts=({_id,userId})=>API.post('/addcontacts',{_id,userId})
 export const updateProfile=({_id,type,data})=>API.post('/auth/updateprofile',{_id,type,data})
+export const fecthVideoFile=(_id)=>API.get(`/messages/videofile/${_id}`)
+export const roomNotification=({friendId,_id,smsStatus})=>API.post('auth/notification',{friendId,_id,smsStatus})

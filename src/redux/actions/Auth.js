@@ -1,5 +1,5 @@
 import * as api from "../../api/index"
-import { ADD_TO_CONTACTS, ALL_USERS, AUTH, UPDATE_PROFILE } from "../constants/actionType";
+import { ADD_TO_CONTACTS, ALL_USERS, AUTH, SET_LOADING, UPDATE_PROFILE } from "../constants/actionType";
 
 export const LoginUser=(formData,router,socket)=>async(dispatch)=>{
      const{password,phoneNumber}=formData
@@ -12,7 +12,7 @@ export const LoginUser=(formData,router,socket)=>async(dispatch)=>{
         router('/')
     } catch (error) {
         console.log(error);
-        return error.message
+        return error?.response?.data?.message
     }
 
 }
@@ -25,13 +25,15 @@ export const signUpUser=(formData,router,socket)=>async(dispatch)=>{
                 router('/')
             } catch (error) {
                 console.log(error);
-                return error.message
+                return error?.response?.data?.message
             }
 
 }
 
 export const fecthAllUsers=(_id)=>async(dispatch)=>{
+    dispatch({type:SET_LOADING,payload:true})
       const {data}=await api.allUsers(_id);
+    dispatch({type:SET_LOADING,payload:false})
       dispatch({type:ALL_USERS,payload:data})
 }
 

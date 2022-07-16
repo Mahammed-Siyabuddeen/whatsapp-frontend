@@ -1,4 +1,4 @@
-import { ADD_TO_CONTACTS, ALL_USERS, AUTH, CALLING_USER, FETCH_ROOM, INCOMMING_CALL, SOCKET_IO_CONNECTION, UPDATE_PROFILE } from "../constants/actionType";
+import { ADD_TO_CONTACTS, ALL_USERS, AUTH, CALLING_USER, FETCH_ROOM, INCOMMING_CALL, LOGOUT, SET_LOADING, SOCKET_IO_CONNECTION, UPDATE_PROFILE } from "../constants/actionType";
 import io from 'socket.io-client'
 const initialState={
     user:JSON.parse(localStorage.getItem('chatProfile')),
@@ -40,6 +40,15 @@ export const AuthReducer=(state=initialState,action)=>{
         }
         case  ADD_TO_CONTACTS:{
             return{...state,allUsers:state.allUsers.filter((user)=>user._id!=action.payload._id)}
+        }
+        case SET_LOADING:{
+            return{
+                ...state,loading:action.payload
+            }
+        }
+        case LOGOUT:{
+            localStorage.removeItem('chatProfile')
+           return initialState
         }
 
         default :return state

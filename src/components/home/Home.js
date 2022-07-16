@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@material-ui/core'
 import {useStyles} from './styles'
+import ringtune from '../../static/69XYNCF-online-phone-ringing.mp3'
 function Home({ user, friendVideo, myVideo }) {
   const { socket } = useSelector((state) => state.AuthReducer)
   const[open,setOpen]=useState(false)
@@ -86,6 +87,11 @@ function Home({ user, friendVideo, myVideo }) {
         <>
           <SideBar user={user} />
           <Chat friendVideo={friendVideo} myVideo={myVideo} />
+          {open&&(
+                    <audio src={ringtune} autoPlay loop>
+
+                    </audio>
+                    )}
           {videoDialog?(
               <Dialog open={open} onClose={handleDecline} >
                   <DialogTitle>Video calling...</DialogTitle>  
@@ -106,6 +112,7 @@ function Home({ user, friendVideo, myVideo }) {
                           <Button variant='contained' className={classes.ButtonDecline} onClick={handleDecline}  >dicline</Button>
                           <Button variant='contained' color='primary' onClick={handleAudioAnswer}>Answer</Button>
                     </DialogActions>
+                 
                 </Dialog>
 
           )

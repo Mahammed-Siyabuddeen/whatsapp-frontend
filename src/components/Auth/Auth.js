@@ -27,6 +27,7 @@ function Auth() {
   const {socket}=useSelector((state)=>state.AuthReducer)
   const switchMode = () => {
     setForm(initialState)
+    setError('')
     setIsSignUp((prevState) => !prevState)
   }
   const handleSubmit = async (e) => {

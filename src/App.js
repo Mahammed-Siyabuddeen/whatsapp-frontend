@@ -4,22 +4,41 @@ import { BrowserRouter, Route, Routes} from 'react-router-dom'
 import Home from './components/home/Home';
 import Auth from './components/Auth/Auth';
 import Contacts from './components/contacts/contacts';
-import {useSelector } from 'react-redux';
+import {useDispatch, useSelector } from 'react-redux';
 import VideoStreamSelf from './components/VideoChat/VideoStream';
 import {ConfirmProvider} from 'material-ui-confirm'
 import AudioChat from './components/AudioChat/AudioChat';
 import Profile from './components/Profile/Profile';
 import ContactInfo from './components/ContactInfo/ContactInfo';
+import { LOGOUT, UPDATE_STATUS } from './redux/constants/actionType';
+import decode from 'jwt-decode'
 function App() {
   const { AuthReducer,RoomReducer} = useSelector((state) => state);
   const{user, socket }=AuthReducer
   const{currentRoom}=RoomReducer
+  const dispatch=useDispatch()
 
   useEffect(() => {
     console.log(socket);
     socket.emit('join', { userId: user?._id, socketId: socket.id })
     
   }, [])
+  useEffect(()=>{
+    if(user?.token){
+      const decodeToken=decode(user?.token)
+      if(decodeToken?.exp*1000<new Date().getTime())
+         dispatch({type:LOGOUT})
+    }
+  },[user])
+   useEffect(()=>{
+     socket.on('status',({_id,status})=>{
+          dispatch({type:UPDATE_STATUS,payload:{status,_id}})
+          console.log('socket on status : ',_id);
+     })
+     return ()=>{
+       socket.off('status')
+     }
+   },[])
 
   return (
 

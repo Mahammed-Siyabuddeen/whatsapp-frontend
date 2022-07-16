@@ -1,4 +1,4 @@
-import { Avatar, Grid ,Button} from '@material-ui/core'
+import { Avatar, Grid ,Button,CircularProgress} from '@material-ui/core'
 import React, { useEffect } from 'react'
 import { styles } from './styles'
 import {useDispatch, useSelector} from 'react-redux'
@@ -6,7 +6,7 @@ import { addToContacts, fecthAllUsers } from '../../redux/actions/Auth'
 function Contacts() {
     const classes = styles()
     const dispatch=useDispatch()
-    const {allUsers,user}=useSelector(state=>state.AuthReducer)
+    const {allUsers,user,loading}=useSelector(state=>state.AuthReducer)
     useEffect(()=>{
         dispatch(fecthAllUsers(user._id))
     },[])
@@ -17,6 +17,19 @@ function Contacts() {
         
     }
     
+
+    if(loading){
+        return(
+            <div className={classes.users_container}>
+                <div className={classes.user_body}>
+                    <div style={{margin:'auto',width:'50%'}}>
+                        <CircularProgress/>
+                    </div>
+                </div>
+            </div>
+
+        )
+    }
     return (
         <div className={classes.users_container}>
             <div className={classes.users_body}>

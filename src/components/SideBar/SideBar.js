@@ -4,7 +4,6 @@ import Avatar from '@material-ui/core/Avatar'
 import DonutLargeIcon from '@material-ui/icons/DonutLarge'
 import { Button, IconButton,} from '@material-ui/core'
 import ChatIcon from '@material-ui/icons/Chat'
-import MoreViewIcon from '@material-ui/icons/MoreVert'
 import SearchOutlined from '@material-ui/icons/SearchOutlined'
 import SidebarChat from '../SidebarChat/SidebarChat'
 import {useNavigate} from 'react-router-dom'
@@ -63,7 +62,7 @@ function SideBar() {
            {
              rooms.map((data,i)=>(
 
-               <SidebarChat key={i} data={data}/>
+               <SidebarChat key={i} data={data} myId={user?._id||undefined}/>
              ))
            }
          </div>
