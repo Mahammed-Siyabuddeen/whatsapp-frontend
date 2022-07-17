@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const API=axios.create({
-    baseURL:'http://localhost:9000'
+    baseURL:'https://whatsapp-clone-shihab.herokuapp.com'
 })
 API.interceptors.request.use((req)=>{
     if(localStorage.getItem('chatProfile')){
