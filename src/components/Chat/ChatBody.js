@@ -1,10 +1,8 @@
-import { makeStyles, ThemeProvider } from '@material-ui/core'
-import AudioPlayer from 'material-ui-audio-player'
+import { makeStyles } from '@material-ui/core'
 import React,{useEffect, useRef, useState} from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { roomNotification } from '../../redux/actions/Rooms'
-import { SET_CURRENT_CHAT, SET_NOTIFICATIONS } from '../../redux/constants/actionType'
-import { useStyle } from './styles'
+import { SET_CURRENT_CHAT} from '../../redux/constants/actionType'
 
 import sound from  '../../static/Whatsapp Tone - iphone.mp3'
 function ChatBody({user,handleViewImage,handleViewVideo}) {
@@ -55,14 +53,7 @@ function ChatBody({user,handleViewImage,handleViewVideo}) {
           ) :
           audioFile ?(
             <div key={i} className={`chat_message_emoji_and_voice ${author === user._id && `chat_reciever`}`}>
-              <ThemeProvider  >
-                <AudioPlayer src={audioFile}
-                  spacing={3}
-                  useStyles={author===user._id? useStyle:uset}
-                  volume={false}
-                  time={'single'}
-                />
-              </ThemeProvider>
+              <audio src={audioFile} controls controlsList='nodownload' ></audio>
             </div>
           ):imageFile?(
             <div key={i} className={`chat_message ${author===user._id && 'chat_reciever'}`}>
