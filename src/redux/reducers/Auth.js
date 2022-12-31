@@ -2,7 +2,7 @@ import { ADD_TO_CONTACTS, ALL_USERS, AUTH, CALLING_USER, FETCH_ROOM, INCOMMING_C
 import io from 'socket.io-client'
 const initialState={
     user:JSON.parse(localStorage.getItem('chatProfile')),
-    socket:io('https://whatsapp-clone-shihab.herokuapp.com',),
+    socket:io('https://whatsapp-g0af.onrender.com/',),
     callingUser:false,
     incomming_call:false
     
