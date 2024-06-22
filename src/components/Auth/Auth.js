@@ -80,6 +80,18 @@ function Auth() {
                 <Input name="email" label="Email Address" handleChange={handleChange} type="email" />
               </>
             )}
+            {
+              !isSignUp &&(
+                <>
+                user-1<br/><br/>
+                phonenumber: 9669669660<br/>
+                password: 123456<br/><br/>
+                user-2 (open in incognito mode)<br/><br/>
+                phonenumber: 8792635047<br/>
+                password: 123456<br/>
+                </>
+              )
+            }
             <Input name='phoneNumber' label='Phone number' handleChange={handleChange} type='number'
             />
             <Input name="password" label="Password" handleChange={handleChange} type={showPassword ? "text" : "password"} handleShowPassword={handleShowPassword}
@@ -92,7 +104,7 @@ function Auth() {
               <Input name='avatar'  handleChange={handleChange} accept='image/*'  type='file' />
             )}
             {form.avatar &&(
-              <img src={form.avatar} width='90px' style={{padding:'10px'}}/>
+              <img alt="" src={form.avatar} width='90px' style={{padding:'10px'}}/>
             )}
           </Grid>
 
