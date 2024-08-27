@@ -4,7 +4,7 @@ import Chat from '../Chat/Chat'
 import { INCOMMING_CALL } from '../../redux/constants/actionType'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@material-ui/core'
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material'
 import {useStyles} from './styles'
 import ringtune from '../../static/69XYNCF-online-phone-ringing.mp3'
 function Home({ user, friendVideo, myVideo }) {

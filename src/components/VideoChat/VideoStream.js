@@ -2,8 +2,8 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useStyles } from './styles'
 import Peer from 'simple-peer'
 import { useSelector } from 'react-redux'
-import { Button, Grid, Paper } from '@material-ui/core'
-import { CallEnd } from '@material-ui/icons'
+import { Button, Grid, Paper } from '@mui/material'
+import { CallEnd } from '@mui/icons-material'
 import {useNavigate} from 'react-router-dom'
 function VideoStream() {
 

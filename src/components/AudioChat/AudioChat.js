@@ -1,5 +1,5 @@
-import { Button } from '@material-ui/core'
-import { CallEnd } from '@material-ui/icons'
+import { Button } from '@mui/material'
+import { CallEnd } from '@mui/icons-material'
 import React, { useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import Peer from 'simple-peer'

@@ -1,8 +1,8 @@
-import { Avatar, Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@material-ui/core'
+import { Avatar, Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material'
 import React, { useState } from 'react'
 import { useStyles } from './styles'
 import {useDispatch, useSelector} from 'react-redux'
-import { Create } from '@material-ui/icons'
+import { Create } from '@mui/icons-material'
 import { updateProfile } from '../../redux/actions/Auth'
 function Profile() {
     const classes=useStyles()

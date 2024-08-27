@@ -1,4 +1,4 @@
-import { Avatar, Grid ,Button,CircularProgress} from '@material-ui/core'
+import { Avatar, Grid ,Button,CircularProgress} from '@mui/material'
 import React, { useEffect } from 'react'
 import { styles } from './styles'
 import {useDispatch, useSelector} from 'react-redux'

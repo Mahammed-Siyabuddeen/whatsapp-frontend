@@ -1,5 +1,5 @@
-import { Menu, MenuItem } from '@material-ui/core'
-import { Call, Close, MoreVert,Videocam } from '@material-ui/icons';
+import { Menu, MenuItem } from '@mui/material'
+import { Call, Close, MoreVert,Videocam } from '@mui/icons-material';
 import React, { useState } from 'react'
 import { useDispatch} from 'react-redux';
 import { useNavigate } from 'react-router-dom'

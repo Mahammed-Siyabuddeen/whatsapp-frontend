@@ -1,5 +1,4 @@
-import { makeStyles } from "@material-ui/core";
-import { textAlign } from "@mui/system";
+import { makeStyles } from "@mui/styles";import { textAlign } from "@mui/system";
 
 export  const styles=makeStyles((theme)=>({
     users_container:{

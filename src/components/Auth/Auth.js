@@ -1,4 +1,4 @@
-import { Container, Grid, Paper, Typography, Button, } from '@material-ui/core'
+import { Container, Grid, Paper, Typography, Button, } from '@mui/material'
 import { Alert } from '@mui/material'
 import React, { useState } from 'react'
 import Input from './Input'

@@ -1,5 +1,5 @@
-import { Button, Dialog } from '@material-ui/core'
-import { Close } from '@material-ui/icons'
+import { Button, Dialog } from '@mui/material'
+import { Close } from '@mui/icons-material'
 import React, { useEffect } from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import { fecthVideoFile } from '../../redux/actions/Rooms'

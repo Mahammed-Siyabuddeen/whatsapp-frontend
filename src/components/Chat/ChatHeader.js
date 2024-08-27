@@ -1,5 +1,5 @@
-import { Avatar, IconButton, TextField } from '@material-ui/core'
-import { AttachFile, SearchOutlined } from '@material-ui/icons'
+import { Avatar, IconButton, TextField } from '@mui/material'
+import { AttachFile, SearchOutlined } from '@mui/icons-material'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'

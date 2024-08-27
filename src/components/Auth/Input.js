@@ -1,4 +1,4 @@
-import { Grid, TextField } from '@material-ui/core'
+import { Grid, TextField } from '@mui/material'
 import React from 'react'
 
 function Input({name,placeholder,handleChange,autoFocus,type,label}) {

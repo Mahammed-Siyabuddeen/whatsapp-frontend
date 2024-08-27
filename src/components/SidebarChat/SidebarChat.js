@@ -1,6 +1,6 @@
 import React from 'react'
-import { Avatar } from '@material-ui/core'
-import {Notifications} from '@material-ui/icons'
+import { Avatar } from '@mui/material'
+import {Notifications} from '@mui/icons-material'
 import './sidebarChat.css'
 import { useDispatch } from 'react-redux'
 import { CURRENT_CHAT_ROOM } from '../../redux/constants/actionType'

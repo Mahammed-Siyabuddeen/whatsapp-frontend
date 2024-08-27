@@ -1,4 +1,4 @@
-import { makeStyles } from '@material-ui/core'
+import { makeStyles } from '@mui/styles'
 import React,{useEffect, useRef, useState} from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { roomNotification } from '../../redux/actions/Rooms'

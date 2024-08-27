@@ -1,5 +1,5 @@
-import { Button, Dialog, } from '@material-ui/core'
-import { Close} from '@material-ui/icons'
+import { Button, Dialog, } from '@mui/material'
+import { Close} from '@mui/icons-material'
 import React from 'react'
 import {useStyles} from './styles'
 function ImageView({popup,setPopup,currentImage,name}) {

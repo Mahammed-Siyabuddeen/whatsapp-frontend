@@ -1,8 +1,8 @@
-import { InsertEmoticon, Mic, InsertPhoto } from '@material-ui/icons'
+import { InsertEmoticon, Mic, InsertPhoto } from '@mui/icons-material'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import AudioReactRecorder, { RecordState } from 'audio-react-recorder'
-import { IconButton } from '@material-ui/core'
+// import AudioReactRecorder, { RecordState } from 'audio-react-recorder'
+import { IconButton } from '@mui/material'
 import { SET_CURRENT_CHAT } from '../../redux/constants/actionType'
 
 function ChatFooter({input,setInput,sendMessage}) {
@@ -68,11 +68,11 @@ function ChatFooter({input,setInput,sendMessage}) {
       setPlay(prevState=>!prevState)
       if (!play) {
         console.log('play');
-        setRecordState(RecordState.START)
+        // setRecordState(RecordState.START)
       }
       else {
         console.log('notplay');
-        setRecordState(RecordState.STOP)
+        // setRecordState(RecordState.STOP)
       }
     }
 
@@ -106,7 +106,7 @@ function ChatFooter({input,setInput,sendMessage}) {
         </form>
           )}
         <div  style={{display:`${play? 'block':'none' }`}}  >
-          <AudioReactRecorder  state={recordState} onStop={onStop}  canvasHeight={50} canvasWidth={300}/>
+          {/* <AudioReactRecorder  state={recordState} onStop={onStop}  canvasHeight={50} canvasWidth={300}/> */}
         </div>
      <IconButton>
        <Mic disabled={!currentRoom} onClick={handleStart} />
