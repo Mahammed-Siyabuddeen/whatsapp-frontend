@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/static/css/main.6d58f196.css",
+    "main.js": "/static/js/main.bcdedaa3.js",
+    "static/media/69XYNCF-online-phone-ringing.mp3": "/static/media/69XYNCF-online-phone-ringing.8a7f3953dbf6d043011a.mp3",
+    "static/media/Whatsapp Tone - iphone.mp3": "/static/media/Whatsapp Tone - iphone.4abed9247576d778c577.mp3",
+    "index.html": "/index.html",
+    "main.6d58f196.css.map": "/static/css/main.6d58f196.css.map",
+    "main.bcdedaa3.js.map": "/static/js/main.bcdedaa3.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.6d58f196.css",
+    "static/js/main.bcdedaa3.js"
+  ]
+}
