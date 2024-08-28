@@ -12,7 +12,7 @@ const initialState = {
   email: '',
   password: '',
   confirmPassword: '',
-  avatar:''
+  avatar: ''
 
 }
 function Auth() {
@@ -24,7 +24,7 @@ function Auth() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const classes = useStyles()
-  const {socket}=useSelector((state)=>state.AuthReducer)
+  const { socket } = useSelector((state) => state.AuthReducer)
   const switchMode = () => {
     setForm(initialState)
     setError('')
@@ -33,32 +33,32 @@ function Auth() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     if (isSignUp) {
-      (form.phoneNumber.length!=10)?
-      setError('only indian phonenumber allowed'):
-      form.password.length<6?
-      setError('password should be minmum 6 character')
-       :form.password!==form.confirmPassword?
-       setError('password not match')
-       :signUpNewOne();
+      (form.phoneNumber.length != 10) ?
+        setError('only indian phonenumber allowed') :
+        form.password.length < 6 ?
+          setError('password should be minmum 6 character')
+          : form.password !== form.confirmPassword ?
+            setError('password not match')
+            : signUpNewOne();
     } else {
-      const err =await  dispatch(LoginUser(form, navigate,socket))
+      const err = await dispatch(LoginUser(form, navigate, socket))
       setError(err)
     }
   }
 
- async function signUpNewOne(){
-     const err=await dispatch(signUpUser(form,navigate,socket))
-     setError(err)
+  async function signUpNewOne() {
+    const err = await dispatch(signUpUser(form, navigate, socket))
+    setError(err)
   }
 
   const handleChange = (e) => {
     setError('')
-    if(e.target.type==='file'){
-      const reader=new FileReader()
+    if (e.target.type === 'file') {
+      const reader = new FileReader()
       reader.readAsDataURL(e.target.files[0])
-      reader.onloadend=()=>{
+      reader.onloadend = () => {
 
-        setForm({ ...form, [e.target.name]: reader.result})
+        setForm({ ...form, [e.target.name]: reader.result })
       }
     }
     else
@@ -67,13 +67,13 @@ function Auth() {
   const handleShowPassword = {}
   return (
     <Container component='main' maxWidth='xs'>
-      <Paper elevation={3} className={classes.paper}>
+      <Paper sx={{ padding: 1 }} elevation={3} className={classes.paper}>
         {error && <Alert severity="error">{error}— check it out!</Alert>}
         <Typography component='h1' variant='h5'>
           {isSignUp ? 'Sign UP' : 'Sign In'}
         </Typography>
-        <form onSubmit={handleSubmit} className={classes.form}>
-          <Grid container spacing={2}>
+        <form onSubmit={handleSubmit} className={'.form'}>
+          <Grid container spacing={1}>
             {isSignUp && (
               <>
                 <Input name='name' label='Name' handleChange={handleChange} autoFocus />
@@ -81,15 +81,15 @@ function Auth() {
               </>
             )}
             {
-              !isSignUp &&(
-                <>
-                user-1<br/><br/>
-                phonenumber: 9669669660<br/>
-                password: 123456<br/><br/>
-                user-2 (open in incognito mode)<br/><br/>
-                phonenumber: 8792635047<br/>
-                password: 123456<br/>
-                </>
+              !isSignUp && (
+                  <p className='instructions_para'>
+                    user-1<br /><br />
+                    phonenumber: 9669669660<br />
+                    password: 123456<br /><br />
+                    user-2 (open in incognito mode)<br /><br />
+                    phonenumber: 8792635047<br />
+                    password: 123456<br />
+                  </p>
               )
             }
             <Input name='phoneNumber' label='Phone number' handleChange={handleChange} type='number'
@@ -100,16 +100,16 @@ function Auth() {
               <Input name="confirmPassword" label="Repeat Password" handleChange={handleChange} type="password"
               />
             )}
-            {isSignUp &&(
-              <Input name='avatar'  handleChange={handleChange} accept='image/*'  type='file' />
+            {isSignUp && (
+              <Input name='avatar' handleChange={handleChange} accept='image/*' type='file' />
             )}
-            {form.avatar &&(
-              <img alt="" src={form.avatar} width='90px' style={{padding:'10px'}}/>
+            {form.avatar && (
+              <img alt="" src={form.avatar} width='90px' style={{ padding: '10px' }} />
             )}
           </Grid>
 
-          <Grid container justify="flex-end">
-            <Button className={classes.submit} type='submit' variant='text' fullWidth  >
+          <Grid container justify="flex-end ">
+            <Button sx={{ backgroundColor: '#a6ff4d', paddingY: 2, marginY: 1 }} type='submit' variant='text' fullWidth  >
               {isSignUp ? 'Signup' : 'Login'}
             </Button>
             <Grid item>

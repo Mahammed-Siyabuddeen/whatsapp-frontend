@@ -90,7 +90,6 @@ function VideoStream() {
 
     const hangout = () => {
         connectionRef.current = null
-        console.log('fff');
         socket.emit('hangUp', { friendId: currentRoom?._id || call?.from, })
         stream.getTracks().forEach(function (track) {
             track.stop();

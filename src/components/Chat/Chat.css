@@ -35,7 +35,7 @@
     position: relative;
     font-size: 25px;
     padding: 10px;
-    width: 180px;
+    width: fit-content;
     border-radius: 10px;
     background-color: #ffffff;
     margin-bottom: 30px;
@@ -81,4 +81,20 @@
 .chat_footer > .MuiSvgIcon-root{
     padding: 10px;
     color: gray;
+}
+.voiceRecording_div{
+    flex: 1;
+    align-items: center;
+    display: flex;
+}
+.voiceRecording_div>p{
+    text-align: start;
+    flex: 1;
+}
+.chat_search_box{
+    height: 35px;
+}
+.chat_headerRight{  
+    display: flex;
+    align-items: center;
 }
